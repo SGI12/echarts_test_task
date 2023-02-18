@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bar chart test task</title>
+    <script src="
+https://cdn.jsdelivr.net/npm/echarts@5.4.1/dist/echarts.min.js
+" type=></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="box">
+        <div class="box_barchart" id="barchart"></div>
+    </div>
+    <script>
+        let myChart = echarts.init(document.getElementById('barchart'));
+        var option = {
+    title: {
+        text: 'Проекты в программах и вне программ',
+        subtext: 'Сумма и процентное соотношение проектов, находящихся в программах и вне программ',
+        subtextStyle: {
+            fontSize: 15
+        },
+    },
+   legend: {
+    bottom: 10,
+    icon: 'circle',
+
+  },
+    xAxis: {
+    type: 'category',
+    data: ['Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь']
+    },
+    yAxis: {
+        type: 'value',
+        formatter: '{value}',
+    },
+    series: [
+    {
+    //В программе ЦП П.
+      name: 'В программе ЦП П.',
+      data: [120, 120, 120, 120, 120, 120, 120],
+      type: 'bar',
+      stack: 'in',
+      itemStyle: {
+        color: '#56B9F2',
+      },
+      tooltip: {
+        valueFormatter: value => value + ' шт.',
+      },
+  
+    },
+    //В программе ИТ П.
+    {
+      name: 'В программе ИТ П.',
+      data: [220, 182, 191, 234, 290, 330, 310],
+      type: 'bar',
+      stack: 'in',
+      itemStyle: {
+        color: '#0078D2',
+      },
+      tooltip: {
+        valueFormatter: value => value + ' шт.',
+      },
+      label: {
+        show: true,
+        position: 'top',
+        formatter: function(params) {
+                        let result=0;
+                        this.option.series.forEach((s, index) => { 
+                            if (index < 2) result+=s.data[params.dataIndex];
+                        } );
+                        return result;
+                    },
+        fontWeight: 'bold',
+        fontSize: 15,
+        
+      },
+      
+    },
+    //Вне программ ЦП П.
+    {
+      name: 'Вне программ ЦП П.',
+      data: [620, 732, 701, 734, 1090, 1130, 1120],
+      type: 'bar',
+      stack: 'out',
+      itemStyle: {
+        color: '#22C38E',
+      },
+      tooltip: {
+        valueFormatter: value => value + ' шт.',
+      }, 
+      
+},
+    //Вне программ ИТ П.
+    {name: 'Вне программ ИТ П.',
+      data: [120, 132, 101, 134, 290, 230, 220],
+      type: 'bar',
+      stack: 'out',
+      itemStyle: {
+        color: '#00724C',
+      },
+      tooltip: {
+        valueFormatter: value => value + ' шт.',
+      },
+      label: {
+        show: true,
+        position: 'top',
+        fontWeight: 'bold',
+        fontSize: 15,
+        formatter: function(params) {
+                        let result=0;
+                        this.option.series.forEach((s, index) => { 
+                            if (index >= 2) result+=s.data[params.dataIndex];
+                        } );
+                        return result;
+                    },
+      },
+    },
+  ],
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'line'
+    },
+//     formatter: (params) => {
+//         let sum = (params[0].data+params[1].data+params[2].data+params[3].data);
+//         let inProgram = (params[0].data+params[1].data);
+//         let notInProgram = (params[2].data+params[3].data);
+//         return "<b>" + params[0].name + "</b>" + "<br>" +
+//          "<b>" + "В программе   " + Math.round(((params[0].data)+(params[1].data))/(sum)*100) 
+//          + '% | ' + inProgram + "шт. " +"</b>" + "<br>"
+//          + params[0].seriesName
+// }
+},
+};
+myChart.on('legendselectchanged', function(params) {
+
+  var isSelected = params.selected[params.name];
+  
+  console.log(
+    (isSelected ? 'Selected' : 'Not Selected') + 'legend' + params.name
+  );
+    if ((isSelected == false) && (params.name == "В программе ИТ П.")) {
+        myChart.setOption ({
+            series: [
+    {
+   
+      name: 'В программе ЦП П.',
+      label: {
+        show: true,
+        position: 'top',
+        fontWeight: 'bold',
+        fontSize: 15,
+      },
+    },]
+            
+        })
+    }
+
+    if ((isSelected == true) && (params.name == "В программе ИТ П.")) {
+        myChart.setOption ({
+            series: [
+    {
+
+      name: 'В программе ЦП П.',
+      label: {
+        show: false,
+        position: 'top',
+        fontWeight: 'bold',
+        fontSize: 15,
+      },
+    },]
+            
+        })
+    }
+    if ((isSelected == false) && (params.name == "В программе ЦП П.")) {
+        myChart.setOption ({
+            series: [
+    {
+    
+      name: 'В программе ИТ П.',
+      label: {
+        show: true,
+        position: 'top',
+        fontWeight: 'bold',
+        fontSize: 15,
+        formatter: '{@score}',
+      },
+    },]
+            
+        })
+    }
+    if ((isSelected == true) && (params.name == "В программе ЦП П.")) {
+        myChart.setOption ({
+            series: [
+    {
+
+      name: 'В программе ИТ П.',
+      label: {
+        show: true,
+        position: 'top',
+        fontWeight: 'bold',
+        fontSize: 15,
+        formatter: function(params) {
+                        let result=0;
+                        this.option.series.forEach((s, index) => { 
+                            if (index < 2) result+=s.data[params.dataIndex];
+                        } );
+                        return result;
+                    },
+      },
+    },]
+            
+        })
+    };
+
+    if ((isSelected == false) && (params.name == "Вне программ ИТ П.")) {
+        myChart.setOption ({
+            series: [
+    {
+
+      name: 'Вне программ ЦП П.',
+      label: {
+        show: true,
+        position: 'top',
+        fontWeight: 'bold',
+        fontSize: 15,
+      },
+    },]
+            
+        })
+    }
+
+    if ((isSelected == true) && (params.name == "Вне программ ИТ П.")) {
+        myChart.setOption ({
+            series: [
+    {
+
+      name: 'Вне программ ЦП П.',
+      label: {
+        show: false,
+        position: 'top',
+        fontWeight: 'bold',
+        fontSize: 15,
+      },
+    },]
+            
+        })
+    }
+
+    if ((isSelected == false) && (params.name == "Вне программ ЦП П.")) {
+        myChart.setOption ({
+            series: [
+    {
+    
+      name: 'Вне программ ИТ П.',
+      label: {
+        show: true,
+        position: 'top',
+        fontWeight: 'bold',
+        fontSize: 15,
+        formatter: '{@score}',
+      },
+    },]
+            
+        })
+    }
+  console.log(params.selected);
+});
+  
+        myChart.setOption(option);
+      </script>
+</body>
+</html>
