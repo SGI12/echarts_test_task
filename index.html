@@ -125,15 +125,38 @@ https://cdn.jsdelivr.net/npm/echarts@5.4.1/dist/echarts.min.js
     axisPointer: {
       type: 'line'
     },
-//     formatter: (params) => {
-//         let sum = (params[0].data+params[1].data+params[2].data+params[3].data);
-//         let inProgram = (params[0].data+params[1].data);
-//         let notInProgram = (params[2].data+params[3].data);
-//         return "<b>" + params[0].name + "</b>" + "<br>" +
-//          "<b>" + "В программе   " + Math.round(((params[0].data)+(params[1].data))/(sum)*100) 
-//          + '% | ' + inProgram + "шт. " +"</b>" + "<br>"
-//          + params[0].seriesName
-// }
+    formatter: (params) => {
+        let sum = (params[0].data+params[1].data+params[2].data+params[3].data);
+        let inProgram = (params[0].data+params[1].data);
+        let notInProgram = (params[2].data+params[3].data);
+        return "<div class='tooltip_container'>" + 
+
+          "<p class='tooltip_title'>" + params[0].name + " 2022 "+ "</p>"  +
+
+          "<p class='tooltip_title_paramsName_title'>" + "В программе" + "<span class='params_count'>" +
+          Math.round(((params[0].data)+(params[1].data))/(sum)*100) 
+         + '% | ' + inProgram + "шт. " + "</span>" +"</p>" + 
+
+         "<div class='tooltip_seriesName'" +
+
+         "<p class ='tooltip_seriesName_value' id='in_cp_progs'>" + params[0].seriesName + ' ' + "<span class='params_count'>" +
+           params[0].data +" шт. " + "</span>" + "</p>" + "</div>" +
+
+         "<p class = 'tooltip_seriesName_value'>" + params[1].seriesName + ' ' + "<span class='params_count'>" + params[1].data +" шт. " +
+           "</span>" + "</p>" +
+        
+          "<p class='tooltip_title_paramsName_title'>" + "Вне программ" + "<span class='params_count'>" +
+          Math.round(((params[2].data)+(params[3].data))/(sum)*100) 
+         + '% | ' + notInProgram + "шт. " + "</span>" +"</p>" +
+         "<div class='tooltip_seriesName'" +
+
+         "<p class = 'tooltip_seriesName_value'>" + params[2].seriesName + ' ' + "<span class='params_count'>" +
+           params[2].data +" шт. " + "</span>" + "</p>" + "</div>" +
+
+         "<p class = 'tooltip_seriesName_value'>" + params[3].seriesName + ' ' + "<span class='params_count'>" + params[3].data +" шт. " +
+           "</span>" + "</p>" 
+        + "</div>"
+},
 },
 };
 myChart.on('legendselectchanged', function(params) {
@@ -143,6 +166,7 @@ myChart.on('legendselectchanged', function(params) {
   console.log(
     (isSelected ? 'Selected' : 'Not Selected') + 'legend' + params.name
   );
+  //Если выключаем В программе ИТ
     if ((isSelected == false) && (params.name == "В программе ИТ П.")) {
         myChart.setOption ({
             series: [
@@ -155,11 +179,50 @@ myChart.on('legendselectchanged', function(params) {
         fontWeight: 'bold',
         fontSize: 15,
       },
-    },]
-            
-        })
-    }
+    },],
+    tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'line'
+    },
+    formatter: (params) => {
+        let sum = (params[0].data+params[1].data+params[2].data);
+        let inProgram = (params[0].data);
+        let notInProgram = (params[2].data+params[1].data);
+        return "<div class='tooltip_container'>" + 
 
+          "<p class='tooltip_title'>" + params[0].name + " 2022 "+ "</p>"  +
+
+          "<p class='tooltip_title_paramsName_title'>" + "В программе" + "<span class='params_count'>" +
+          Math.round(((params[0].data))/(sum)*100) 
+         + '% | ' + inProgram + "шт. " + "</span>" +"</p>" + 
+
+         "<div class='tooltip_seriesName'" +
+
+         "<p class ='tooltip_seriesName_value' id='in_cp_progs'>" + params[0].seriesName + ' ' + "<span class='params_count'>" +
+           params[0].data +" шт. " + "</span>" + "</p>" + "</div>" +
+
+        
+          "<p class='tooltip_title_paramsName_title'>" + "Вне программ" + "<span class='params_count'>" +
+          Math.round(((params[2].data+(params[1].data)))/(sum)*100) 
+         + '% | ' + notInProgram + "шт. " + "</span>" +"</p>" +
+         "<div class='tooltip_seriesName'" +
+
+         
+         "<p class = 'tooltip_seriesName_value'>" + params[1].seriesName + ' ' + "<span class='params_count'>" + params[1].data +" шт. " +
+           "</span>" + "</p>" +
+
+         "<p class = 'tooltip_seriesName_value'>" + params[2].seriesName + ' ' + "<span class='params_count'>" +
+           params[2].data +" шт. " + "</span>" + "</p>" + "</div>" 
+        + "</div>"
+},
+},     
+        
+  },
+        
+    )
+    }
+    //Если включаем в программе ИТ обратно
     if ((isSelected == true) && (params.name == "В программе ИТ П.")) {
         myChart.setOption ({
             series: [
@@ -174,7 +237,47 @@ myChart.on('legendselectchanged', function(params) {
       },
     },]
             
-        })
+        });
+        myChart.setOption ({
+      tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'line'
+    },
+    formatter: (params) => {
+        let sum = (params[0].data+params[1].data+params[2].data+params[3].data);
+        let inProgram = (params[0].data+params[1].data);
+        let notInProgram = (params[2].data+params[3].data);
+        return "<div class='tooltip_container'>" + 
+
+          "<p class='tooltip_title'>" + params[0].name + " 2022 "+ "</p>"  +
+
+          "<p class='tooltip_title_paramsName_title'>" + "В программе" + "<span class='params_count'>" +
+          Math.round(((params[0].data)+(params[1].data))/(sum)*100) 
+         + '% | ' + inProgram + "шт. " + "</span>" +"</p>" + 
+
+         "<div class='tooltip_seriesName'" +
+
+         "<p class ='tooltip_seriesName_value' id='in_cp_progs'>" + params[0].seriesName + ' ' + "<span class='params_count'>" +
+           params[0].data +" шт. " + "</span>" + "</p>" + "</div>" +
+
+         "<p class = 'tooltip_seriesName_value'>" + params[1].seriesName + ' ' + "<span class='params_count'>" + params[1].data +" шт. " +
+           "</span>" + "</p>" +
+        
+          "<p class='tooltip_title_paramsName_title'>" + "Вне программ" + "<span class='params_count'>" +
+          Math.round(((params[2].data)+(params[3].data))/(sum)*100) 
+         + '% | ' + notInProgram + "шт. " + "</span>" +"</p>" +
+         "<div class='tooltip_seriesName'" +
+
+         "<p class = 'tooltip_seriesName_value'>" + params[2].seriesName + ' ' + "<span class='params_count'>" +
+           params[2].data +" шт. " + "</span>" + "</p>" + "</div>" +
+
+         "<p class = 'tooltip_seriesName_value'>" + params[3].seriesName + ' ' + "<span class='params_count'>" + params[3].data +" шт. " +
+           "</span>" + "</p>" 
+        + "</div>"
+},
+},
+    }) 
     }
     if ((isSelected == false) && (params.name == "В программе ЦП П.")) {
         myChart.setOption ({
@@ -191,7 +294,7 @@ myChart.on('legendselectchanged', function(params) {
       },
     },]
             
-        })
+        });
     }
     if ((isSelected == true) && (params.name == "В программе ЦП П.")) {
         myChart.setOption ({

@@ -18,3 +18,65 @@
     height: 71%;
 }
 
+.tooltip_seriesName_value {
+    text-align: justify;
+    margin: 0;
+    padding: 0;
+}
+
+.tooltip_title {
+    padding: 0;
+    margin: 0;
+    color:black;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 16.8px;
+}
+
+
+.tooltip_container {
+    width: 191px;
+    height: 189px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    align-content: stretch;
+    grid-gap: 8.5px;
+    
+}
+.tooltip_title_paramsName_title {
+    padding: 0;
+    margin: 0;
+    color:black;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 16.8px;
+}
+
+.tooltip_seriesName{
+    padding: 0;
+    margin: 0;
+    height: 18px;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+
+}
+
+.tooltip_seriesName_value {
+font-size: 12px;
+font-weight: 400;
+line-height: 18px;
+letter-spacing: 0em;
+text-align: left;
+
+}
+
+.params_count {
+    color: black;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 18px;
+    float: right;
+}
+
